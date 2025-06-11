@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单支付 - 查新中心</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/payment.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="nav-brand">
+                    <div class="logo">
+                        <div class="logo-icon">西</div>
+                        <div class="logo-text">
+                            <h1>西南信息中心</h1>
+                            <p>Academic Information Services</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-menu">
+                    <a href="chaxin.html" class="nav-link">首页</a>
+                    <a href="novelty-search.html" class="nav-link">科技查新</a>
+                    <a href="citation-report.html" class="nav-link">收录引用检索</a>
+                    <a href="pricing.html" class="nav-link">收费标准</a>
+                    <a href="contact.html" class="nav-link">联系我们</a>
+                </div>
+                <div class="nav-user">
+                    <div class="user-dropdown">
+                        <button class="user-btn">
+                            <div class="user-avatar">张</div>
+                            <span>张三</span>
+                            <i data-feather="chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="user-center.html" class="dropdown-item">个人中心</a>
+                            <a href="#" class="dropdown-item" id="logoutBtn">退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Payment Section -->
+    <section class="payment-section">
+        <div class="container">
+            <div class="payment-header">
+                <h1>订单支付</h1>
+                <p>请选择支付方式完成订单支付</p>
+            </div>
+
+            <div class="payment-container">
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h2>订单信息</h2>
+                    <div class="order-details">
+                        <div class="order-item">
+                            <div class="item-info">
+                                <h3>科技查新报告</h3>
+                                <p>项目名称：人工智能算法研究</p>
+                                <p>订单号：CX2024010901</p>
+                                <p>创建时间：2024-01-09 10:30</p>
+                            </div>
+                        </div>
+                        <div class="order-breakdown">
+                            <div class="breakdown-item">
+                                <span>基础服务费</span>
+                                <span>¥1,000</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>加急费用</span>
+                                <span>¥200</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>其他费用</span>
+                                <span>¥0</span>
+                            </div>
+                            <div class="breakdown-total">
+                                <span>总计</span>
+                                <span>¥1,200</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="payment-methods">
+                    <h2>选择支付方式</h2>
+                    <div class="payment-options">
+                        <div class="payment-option" data-method="wechat">
+                            <div class="option-content">
+                                <div class="option-icon wechat">
+                                    <i data-feather="smartphone"></i>
+                                </div>
+                                <div class="option-info">
+                                    <h3>微信支付</h3>
+                                    <p>使用微信扫码支付</p>
+                                </div>
+                                <div class="option-radio">
+                                    <input type="radio" name="paymentMethod" value="wechat" id="wechatPay">
+                                    <label for="wechatPay"></label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-option" data-method="alipay">
+                            <div class="option-content">
+                                <div class="option-icon alipay">
+                                    <i data-feather="smartphone"></i>
+                                </div>
+                                <div class="option-info">
+                                    <h3>支付宝</h3>
+                                    <p>使用支付宝扫码支付</p>
+                                </div>
+                                <div class="option-radio">
+                                    <input type="radio" name="paymentMethod" value="alipay" id="alipay">
+                                    <label for="alipay"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="payment-option" data-method="bank">
+                            <div class="option-content">
+                                <div class="option-icon bank">
+                                    <i data-feather="credit-card"></i>
+                                </div>
+                                <div class="option-info">
+                                    <h3>银行转账</h3>
+                                    <p>通过银行转账支付</p>
+                                </div>
+                                <div class="option-radio">
+                                    <input type="radio" name="paymentMethod" value="bank" id="bankTransfer">
+                                    <label for="bankTransfer"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Details -->
+                <div class="payment-details">
+                    <!-- WeChat Pay -->
+                    <div class="payment-detail active" id="wechat-detail">
+                        <div class="qr-payment">
+                            <div class="qr-container">
+                                <div class="qr-code">
+                                    <div class="qr-placeholder">
+                                        <i data-feather="qr-code"></i>
+                                        <p>微信支付二维码</p>
+                                    </div>
+                                </div>
+                                <div class="qr-info">
+                                    <h3>¥1,200</h3>
+                                    <p>请使用微信扫描二维码支付</p>
+                                    <div class="payment-timer">
+                                        <span>支付剩余时间：</span>
+                                        <span id="paymentTimer">14:59</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="payment-status">
+                                <div class="status-checking">
+                                    <i data-feather="refresh-cw"></i>
+                                    <span>等待支付...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alipay -->
+                    <div class="payment-detail" id="alipay-detail">
+                        <div class="qr-payment">
+                            <div class="qr-container">
+                                <div class="qr-code">
+                                    <div class="qr-placeholder alipay">
+                                        <i data-feather="qr-code"></i>
+                                        <p>支付宝支付二维码</p>
+                                    </div>
+                                </div>
+                                <div class="qr-info">
+                                    <h3>¥1,200</h3>
+                                    <p>请使用支付宝扫描二维码支付</p>
+                                    <div class="payment-timer">
+                                        <span>支付剩余时间：</span>
+                                        <span id="alipayTimer">14:59</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="payment-status">
+                                <div class="status-checking">
+                                    <i data-feather="refresh-cw"></i>
+                                    <span>等待支付...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bank Transfer -->
+                    <div class="payment-detail" id="bank-detail">
+                        <div class="bank-info">
+                            <h3>银行转账信息</h3>
+                            <div class="bank-details">
+                                <div class="bank-item">
+                                    <span>收款单位：</span>
+                                    <span>科学技术部西南信息中心</span>
+                                </div>
+                                <div class="bank-item">
+                                    <span>开户银行：</span>
+                                    <span>中国工商银行重庆分行</span>
+                                </div>
+                                <div class="bank-item">
+                                    <span>银行账号：</span>
+                                    <span>3100 0206 0920 0123456</span>
+                                </div>
+                                <div class="bank-item">
+                                    <span>支付金额：</span>
+                                    <span class="amount">¥1,200</span>
+                                </div>
+                                <div class="bank-item">
+                                    <span>备注信息：</span>
+                                    <span>订单号：CX2024010901</span>
+                                </div>
+                            </div>
+                            <div class="bank-notice">
+                                <p><i data-feather="info"></i> 请在转账时务必备注订单号，以便我们及时确认您的支付</p>
+                                <p><i data-feather="clock"></i> 银行转账一般需要1-2个工作日到账，请耐心等待</p>
+                            </div>
+                            <div class="upload-voucher">
+                                <h4>上传转账凭证（可选）</h4>
+                                <div class="upload-area">
+                                    <input type="file" id="voucherUpload" accept="image/*">
+                                    <label for="voucherUpload">
+                                        <i data-feather="upload"></i>
+                                        <span>点击上传转账凭证</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Actions -->
+                <div class="payment-actions">
+                    <button class="btn btn-outline" onclick="history.back()">返回修改</button>
+                    <button class="btn btn-primary" id="confirmPayment">确认支付</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="success-icon">
+                    <i data-feather="check-circle"></i>
+                </div>
+                <h2>支付成功</h2>
+            </div>
+            <div class="modal-body">
+                <p>您的订单已支付成功，我们将尽快开始处理您的订单。</p>
+                <div class="order-info">
+                    <p>订单号：CX2024010901</p>
+                    <p>支付金额：¥1,200</p>
+                    <p>支付时间：2024-01-09 10:45</p>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="window.location.href='chaxin.html'">返回首页</button>
+                <button class="btn btn-primary" onclick="window.location.href='user-center.html'">查看订单</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Failed Modal -->
+    <div class="modal" id="failedModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="failed-icon">
+                    <i data-feather="x-circle"></i>
+                </div>
+                <h2>支付失败</h2>
+            </div>
+            <div class="modal-body">
+                <p>支付过程中出现问题，请重试或选择其他支付方式。</p>
+                <p>如需帮助，请联系客服：400-900-1306</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="closeModal('failedModal')">重新支付</button>
+                <button class="btn btn-primary" onclick="window.location.href='contact.html'">联系客服</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="js/payment.js"></script>
+</body>
+</html> 

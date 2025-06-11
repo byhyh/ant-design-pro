@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单详情 - 查新中心</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/user-center.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="nav-brand">
+                    <div class="logo">
+                        <div class="logo-icon">西</div>
+                        <div class="logo-text">
+                            <h1>西南信息中心</h1>
+                            <p>Academic Information Services</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-menu">
+                    <a href="chaxin.html" class="nav-link">首页</a>
+                    <a href="novelty-search.html" class="nav-link">科技查新</a>
+                    <a href="citation-report.html" class="nav-link">收录引用检索</a>
+                    <a href="pricing.html" class="nav-link">收费标准</a>
+                    <a href="contact.html" class="nav-link">联系我们</a>
+                </div>
+                <div class="nav-user">
+                    <div class="user-dropdown">
+                        <button class="user-btn">
+                            <div class="user-avatar">U</div>
+                            <span>用户</span>
+                            <i data-feather="chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="user-center.html" class="dropdown-item">个人中心</a>
+                            <a href="#" class="dropdown-item" id="logoutBtn">退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Order Detail Section -->
+    <section class="order-detail">
+        <div class="container">
+            <div class="detail-header">
+                <button class="btn-back" onclick="history.back()">
+                    <i data-feather="arrow-left"></i>
+                    返回
+                </button>
+                <h1>订单详情</h1>
+            </div>
+
+            <div class="detail-content">
+                <!-- 订单基本信息 -->
+                <div class="detail-card">
+                    <div class="card-header">
+                        <h2>订单信息</h2>
+                        <div class="order-actions">
+                            <button class="btn btn-outline" id="downloadReportBtn" style="display: none;">
+                                <i data-feather="download"></i>
+                                下载报告
+                            </button>
+                            <button class="btn btn-danger" id="cancelOrderBtn" style="display: none;">
+                                <i data-feather="x"></i>
+                                取消订单
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>订单号</label>
+                                <span id="orderNo">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>服务类型</label>
+                                <span id="serviceType">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>项目名称</label>
+                                <span id="projectName">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>订单状态</label>
+                                <span id="orderStatus" class="status-badge">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>紧急程度</label>
+                                <span id="urgencyLevel">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>订单金额</label>
+                                <span id="orderAmount" class="amount">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>创建时间</label>
+                                <span id="createTime">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>预计完成时间</label>
+                                <span id="estimatedCompletionTime">-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h3>项目描述</h3>
+                            <p id="projectDescription">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 服务详情 -->
+                <div class="detail-card" id="serviceDetailsCard">
+                    <div class="card-header">
+                        <h2>服务详情</h2>
+                    </div>
+                    <div class="card-content" id="serviceDetailsContent">
+                        <!-- 动态内容将由JavaScript填充 -->
+                    </div>
+                </div>
+
+                <!-- 联系信息 -->
+                <div class="detail-card">
+                    <div class="card-header">
+                        <h2>联系信息</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>联系人</label>
+                                <span id="contactName">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>联系电话</label>
+                                <span id="contactPhone">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>联系邮箱</label>
+                                <span id="contactEmail">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>联系单位</label>
+                                <span id="contactUnit">-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h3>报告接收地址</h3>
+                            <p id="deliveryAddress">-</p>
+                        </div>
+                        
+                        <div class="info-section" id="specialRequirementsSection">
+                            <h3>特殊要求</h3>
+                            <p id="specialRequirements">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 处理进度 -->
+                <div class="detail-card" id="progressCard">
+                    <div class="card-header">
+                        <h2>处理进度</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="progress-timeline">
+                            <div class="timeline-item completed">
+                                <div class="timeline-icon">
+                                    <i data-feather="check"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <h4>订单创建</h4>
+                                    <p>订单已成功创建，等待支付</p>
+                                    <span class="timeline-time" id="createTimeProgress">-</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item" id="paymentItem">
+                                <div class="timeline-icon">
+                                    <i data-feather="credit-card"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <h4>支付确认</h4>
+                                    <p>等待支付确认</p>
+                                    <span class="timeline-time" id="paymentTime">-</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item" id="processingItem">
+                                <div class="timeline-icon">
+                                    <i data-feather="settings"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <h4>处理中</h4>
+                                    <p>专业团队正在处理您的订单</p>
+                                    <span class="timeline-time" id="processingTime">-</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item" id="completedItem">
+                                <div class="timeline-icon">
+                                    <i data-feather="check-circle"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <h4>处理完成</h4>
+                                    <p>订单处理完成，报告已生成</p>
+                                    <span class="timeline-time" id="completedTime">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="processing-notes" id="processingNotesSection" style="display: none;">
+                            <h3>处理备注</h3>
+                            <p id="processingNotes">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 支付信息 -->
+                <div class="detail-card" id="paymentInfoCard">
+                    <div class="card-header">
+                        <h2>支付信息</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="payment-list" id="paymentList">
+                            <!-- 支付记录将由JavaScript填充 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 订单评价 -->
+                <div class="detail-card" id="reviewCard" style="display: none;">
+                    <div class="card-header">
+                        <h2>订单评价</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="review-form" id="reviewForm">
+                            <div class="rating-section">
+                                <label>服务评分</label>
+                                <div class="star-rating" id="starRating">
+                                    <span class="star" data-rating="1">★</span>
+                                    <span class="star" data-rating="2">★</span>
+                                    <span class="star" data-rating="3">★</span>
+                                    <span class="star" data-rating="4">★</span>
+                                    <span class="star" data-rating="5">★</span>
+                                </div>
+                            </div>
+                            <div class="comment-section">
+                                <label>评价内容</label>
+                                <textarea id="reviewComment" rows="4" placeholder="请输入您的评价内容（可选）"></textarea>
+                            </div>
+                            <button class="btn btn-primary" id="submitReviewBtn">提交评价</button>
+                        </div>
+                        
+                        <div class="review-display" id="reviewDisplay" style="display: none;">
+                            <div class="review-rating">
+                                <label>您的评分</label>
+                                <div class="stars" id="displayStars"></div>
+                            </div>
+                            <div class="review-comment">
+                                <label>评价内容</label>
+                                <p id="displayComment">-</p>
+                            </div>
+                            <div class="review-time">
+                                <span id="reviewTime">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .order-detail {
+            min-height: calc(100vh - 80px);
+            background: #f8fafc;
+            padding: 2rem 0;
+        }
+
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 6px;
+            color: #6b7280;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-back:hover {
+            border-color: #4f46e5;
+            color: #4f46e5;
+        }
+
+        .detail-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            background: #f9fafb;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .info-item label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .info-item span {
+            font-size: 0.875rem;
+            color: #1f2937;
+        }
+
+        .info-item .amount {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #059669;
+        }
+
+        .info-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-section h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .info-section p {
+            margin: 0;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        /* 进度时间线 */
+        .progress-timeline {
+            position: relative;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: -2rem;
+            width: 2px;
+            background: #e5e7eb;
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-item.completed .timeline-icon {
+            background: #10b981;
+            color: white;
+        }
+
+        .timeline-item.current .timeline-icon {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-content h4 {
+            margin: 0 0 0.25rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .timeline-content p {
+            margin: 0 0 0.25rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .timeline-time {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        .processing-notes {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* 支付记录 */
+        .payment-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+
+        .payment-info h4 {
+            margin: 0 0 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .payment-info p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 0.75rem;
+        }
+
+        .payment-amount {
+            text-align: right;
+        }
+
+        .payment-amount .amount {
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        /* 评价组件 */
+        .rating-section {
+            margin-bottom: 1rem;
+        }
+
+        .rating-section label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .star {
+            font-size: 1.5rem;
+            color: #d1d5db;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .star.active,
+        .star:hover {
+            color: #fbbf24;
+        }
+
+        .comment-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .comment-section label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .comment-section textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .review-display .stars {
+            color: #fbbf24;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-time {
+            margin-top: 1rem;
+            color: #9ca3af;
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .detail-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .timeline-item {
+                margin-bottom: 1.5rem;
+            }
+
+            .payment-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .payment-amount {
+                width: 100%;
+                text-align: left;
+            }
+        }
+    </style>
+
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="js/order-detail.js"></script>
+</body>
+</html>

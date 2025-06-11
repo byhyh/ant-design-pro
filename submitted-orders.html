@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>已提交订单 - 西南信息中心</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css">
+    <style>
+        .orders-page {
+            background: #f8fafc;
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+        }
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            height: fit-content;
+        }
+        .user-info-card {
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            text-align: center;
+        }
+        .phone-number {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .user-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+        .status-icon {
+            width: 8px;
+            height: 8px;
+            background: #28a745;
+            border-radius: 50%;
+        }
+        .menu-section {
+            padding: 20px 0;
+        }
+        .menu-title {
+            padding: 0 20px 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 1px solid #e9ecef;
+            margin-bottom: 15px;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        .menu-item:hover {
+            background: #f8f9fa;
+            color: #007bff;
+        }
+        .menu-item.active {
+            background: #e3f2fd;
+            color: #007bff;
+            border-left-color: #007bff;
+        }
+        .menu-item i {
+            width: 16px;
+            height: 16px;
+        }
+        .main-content {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .content-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid #e9ecef;
+            background: #f8f9fa;
+        }
+        .breadcrumb {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        .orders-content {
+            padding: 30px;
+        }
+        .order-tabs {
+            display: flex;
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 30px;
+        }
+        .tab-button {
+            padding: 12px 24px;
+            border: none;
+            background: none;
+            color: #666;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .tab-button.active {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+        .tab-button:hover {
+            color: #007bff;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .order-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            background: white;
+            transition: box-shadow 0.2s ease;
+        }
+        .order-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f1f3f4;
+        }
+        .order-number {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        .order-time {
+            color: #666;
+            font-size: 14px;
+        }
+        .order-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-submitted {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        .status-processing {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        .status-completed {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        .status-cancelled {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+        .order-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+        .info-value {
+            font-size: 14px;
+            color: #333;
+        }
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .btn-outline {
+            padding: 8px 16px;
+            border: 1px solid #007bff;
+            background: none;
+            color: #007bff;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-outline:hover {
+            background: #007bff;
+            color: white;
+        }
+        .btn-primary {
+            padding: 8px 16px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        .empty-icon {
+            font-size: 48px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        .order-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .order-price {
+            font-size: 18px;
+            font-weight: 600;
+            color: #e74c3c;
+        }
+        @media (max-width: 768px) {
+            .page-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .sidebar {
+                width: 100%;
+            }
+            .order-info {
+                grid-template-columns: 1fr;
+            }
+            .order-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="logo">
+                    <div class="logo-icon">西</div>
+                    <div class="logo-text">
+                        <h1>西南信息中心</h1>
+                        <p>Southwest Information Center</p>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <nav class="main-nav">
+                    <a href="chaxin.html">首页</a>
+                    <a href="pricing.html">服务定价</a>
+                    <a href="contact.html">联系我们</a>
+                </nav>
+                <div class="user-section">
+                    <a href="login.html" class="login-btn">登录</a>
+                    <a href="user-center.html" class="user-btn">个人中心</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="orders-page">
+        <div class="page-container">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="user-info-card">
+                    <div class="phone-number">139****2228</div>
+                    <div class="user-status">
+                        <div class="status-icon"></div>
+                        <span>已提交订单</span>
+                    </div>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-title">1. 委托项目</div>
+                    <a href="citation-search.html" class="menu-item">
+                        <i data-feather="search"></i>
+                        <span>A. 查收查引</span>
+                    </a>
+                    <a href="order-submit.html" class="menu-item">
+                        <i data-feather="edit"></i>
+                        <span>B. 科技查新</span>
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <div class="menu-title">2. 订单中心</div>
+                    <a href="submitted-orders.html" class="menu-item active">
+                        <i data-feather="clock"></i>
+                        <span>A. 已提交订单</span>
+                        <span style="background: #dc3545; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; margin-left: auto;">3</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i data-feather="file-text"></i>
+                        <span>B. 订单草稿</span>
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <div class="menu-title">3. 发票管理</div>
+                    <a href="#" class="menu-item">
+                        <i data-feather="file"></i>
+                        <span>A. 发票管理</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i data-feather="info"></i>
+                        <span>B. 发票信息</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i data-feather="download"></i>
+                        <span>C. 下载发票</span>
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <div class="menu-title">4. 个人中心</div>
+                    <a href="user-center.html" class="menu-item">
+                        <i data-feather="user"></i>
+                        <span>A. 个人信息</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i data-feather="map-pin"></i>
+                        <span>B. 收件地址</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <div class="content-header">
+                    <div class="breadcrumb">首页 > 订单中心 > 已提交订单</div>
+                    <h1 class="page-title">已提交订单</h1>
+                </div>
+
+                <div class="orders-content">
+                    <!-- 订单分类标签 -->
+                    <div class="order-tabs">
+                        <button class="tab-button active" data-tab="all">全部订单</button>
+                        <button class="tab-button" data-tab="novelty">科技查新</button>
+                        <button class="tab-button" data-tab="citation">查收查引</button>
+                    </div>
+
+                    <!-- 全部订单 -->
+                    <div class="tab-content active" id="all">
+                        <div class="order-list">
+                            <!-- 科技查新订单 -->
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <div class="order-meta">
+                                        <div>
+                                            <div class="order-number">订单号：CX2024061001</div>
+                                            <div class="order-time">提交时间：2024-06-10 14:30:25</div>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <div class="order-status status-processing">进行中</div>
+                                            <div class="order-price">¥1,200</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="order-info">
+                                    <div class="info-item">
+                                        <span class="info-label">服务类型</span>
+                                        <span class="info-value">科技查新</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">项目名称</span>
+                                        <span class="info-value">基于深度学习的图像识别算法研究</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">委托单位</span>
+                                        <span class="info-value">北京理工大学</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">查新范围</span>
+                                        <span class="info-value">国内外</span>
+                                    </div>
+                                </div>
+                                <div class="order-actions">
+                                    <button class="btn-outline">查看详情</button>
+                                    <button class="btn-outline">下载报告</button>
+                                    <button class="btn-primary">联系客服</button>
+                                </div>
+                            </div>
+
+                            <!-- 查收查引订单 -->
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <div class="order-meta">
+                                        <div>
+                                            <div class="order-number">订单号：CY2024061002</div>
+                                            <div class="order-time">提交时间：2024-06-09 09:15:42</div>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <div class="order-status status-completed">已完成</div>
+                                            <div class="order-price">¥320</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="order-info">
+                                    <div class="info-item">
+                                        <span class="info-label">服务类型</span>
+                                        <span class="info-value">查收查引</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">检索数据库</span>
+                                        <span class="info-value">SCI, EI, Scopus</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">文献数量</span>
+                                        <span class="info-value">4篇</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">检索类型</span>
+                                        <span class="info-value">收录+引用检索</span>
+                                    </div>
+                                </div>
+                                <div class="order-actions">
+                                    <button class="btn-outline">查看详情</button>
+                                    <button class="btn-primary">下载报告</button>
+                                </div>
+                            </div>
+
+                            <!-- 科技查新订单2 -->
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <div class="order-meta">
+                                        <div>
+                                            <div class="order-number">订单号：CX2024060803</div>
+                                            <div class="order-time">提交时间：2024-06-08 16:45:10</div>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <div class="order-status status-submitted">已提交</div>
+                                            <div class="order-price">¥950</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="order-info">
+                                    <div class="info-item">
+                                        <span class="info-label">服务类型</span>
+                                        <span class="info-value">科技查新</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">项目名称</span>
+                                        <span class="info-value">新型材料表面处理技术</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">委托单位</span>
+                                        <span class="info-value">清华大学材料学院</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">查新范围</span>
+                                        <span class="info-value">国内</span>
+                                    </div>
+                                </div>
+                                <div class="order-actions">
+                                    <button class="btn-outline">查看详情</button>
+                                    <button class="btn-outline">修改订单</button>
+                                    <button class="btn-primary">联系客服</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 科技查新订单 -->
+                    <div class="tab-content" id="novelty">
+                        <div class="order-list">
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <div class="order-meta">
+                                        <div>
+                                            <div class="order-number">订单号：CX2024061001</div>
+                                            <div class="order-time">提交时间：2024-06-10 14:30:25</div>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <div class="order-status status-processing">进行中</div>
+                                            <div class="order-price">¥1,200</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="order-info">
+                                    <div class="info-item">
+                                        <span class="info-label">项目名称</span>
+                                        <span class="info-value">基于深度学习的图像识别算法研究</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">委托单位</span>
+                                        <span class="info-value">北京理工大学</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">查新范围</span>
+                                        <span class="info-value">国内外</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">查新目的</span>
+                                        <span class="info-value">申报国家级科技计划</span>
+                                    </div>
+                                </div>
+                                <div class="order-actions">
+                                    <button class="btn-outline">查看详情</button>
+                                    <button class="btn-outline">下载报告</button>
+                                    <button class="btn-primary">联系客服</button>
+                                </div>
+                            </div>
+
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <div class="order-meta">
+                                        <div>
+                                            <div class="order-number">订单号：CX2024060803</div>
+                                            <div class="order-time">提交时间：2024-06-08 16:45:10</div>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <div class="order-status status-submitted">已提交</div>
+                                            <div class="order-price">¥950</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="order-info">
+                                    <div class="info-item">
+                                        <span class="info-label">项目名称</span>
+                                        <span class="info-value">新型材料表面处理技术</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">委托单位</span>
+                                        <span class="info-value">清华大学材料学院</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">查新范围</span>
+                                        <span class="info-value">国内</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">查新目的</span>
+                                        <span class="info-value">科技成果评价</span>
+                                    </div>
+                                </div>
+                                <div class="order-actions">
+                                    <button class="btn-outline">查看详情</button>
+                                    <button class="btn-outline">修改订单</button>
+                                    <button class="btn-primary">联系客服</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 查收查引订单 -->
+                    <div class="tab-content" id="citation">
+                        <div class="order-list">
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <div class="order-meta">
+                                        <div>
+                                            <div class="order-number">订单号：CY2024061002</div>
+                                            <div class="order-time">提交时间：2024-06-09 09:15:42</div>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <div class="order-status status-completed">已完成</div>
+                                            <div class="order-price">¥320</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="order-info">
+                                    <div class="info-item">
+                                        <span class="info-label">检索数据库</span>
+                                        <span class="info-value">SCI, EI, Scopus</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">文献数量</span>
+                                        <span class="info-value">4篇</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">检索类型</span>
+                                        <span class="info-value">收录+引用检索</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">报告格式</span>
+                                        <span class="info-value">电子版报告</span>
+                                    </div>
+                                </div>
+                                <div class="order-actions">
+                                    <button class="btn-outline">查看详情</button>
+                                    <button class="btn-primary">下载报告</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        // 初始化图标
+        feather.replace();
+
+        // 标签切换功能
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                
+                // 移除所有活跃状态
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // 添加当前标签的活跃状态
+                button.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // 订单操作
+        document.querySelectorAll('.btn-outline, .btn-primary').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const action = e.target.textContent;
+                if (action === '查看详情') {
+                    // 跳转到订单详情页
+                    window.location.href = 'order-detail.html?id=' + Math.random().toString(36).substr(2, 9);
+                } else if (action === '下载报告') {
+                    // 下载报告功能
+                    alert('报告下载功能开发中...');
+                } else if (action === '联系客服') {
+                    // 联系客服功能
+                    alert('客服电话：028-85967599');
+                } else if (action === '修改订单') {
+                    // 修改订单功能
+                    alert('订单修改功能开发中...');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
